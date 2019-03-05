@@ -35,6 +35,8 @@ if (localStorage.jwtToken) {
     window.location.href = "./login";
   }
 }
+console.log("test3")
+
 class App extends Component {
   render() {
     return (
