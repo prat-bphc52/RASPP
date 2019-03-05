@@ -7,7 +7,7 @@
     "server": "nodemon server.js",
     "client": "npm start --prefix client",
     "client-install": "npm install --prefix client",
-    "start": "concurrently \"npm run client-install\" \"node server.js\" \"npm run server\""
+    "start": "concurrently \"node server.js\" \"npm run server\" \"npm run client\""
   },
   "author": "",
   "license": "MIT",
