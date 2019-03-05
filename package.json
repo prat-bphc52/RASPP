@@ -4,7 +4,6 @@
   "description": "Mern Auth Example",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
     "server": "nodemon server.js",
     "start": "concurrently \"node server.js\" \"npm run server\""
   },
