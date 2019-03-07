@@ -13,6 +13,7 @@ import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
 import PrivateRoute from "./components/private-route/PrivateRoute";
 import Dashboard from "./components/dashboard/Dashboard";
+import DashboardAdmin from "./components/dashboard/DashboardAdmin";
 
 import "./App.css";
 
@@ -35,20 +36,20 @@ if (localStorage.jwtToken) {
     window.location.href = "./login";
   }
 }
-console.log("test3")
-
 class App extends Component {
   render() {
     return (
       <Provider store={store}>
         <Router>
           <div className="App">
-            <Navbar />
+            <h1 align = "center">RASPP</h1>
+            <h5 align = "center">Company Communication System</h5>
             <Route exact path="/" component={Landing} />
             <Route exact path="/register" component={Register} />
             <Route exact path="/login" component={Login} />
             <Switch>
               <PrivateRoute exact path="/dashboard" component={Dashboard} />
+              <PrivateRoute exact path="/dashboardadmin" component={DashboardAdmin} />
             </Switch>
           </div>
         </Router>
@@ -57,3 +58,4 @@ class App extends Component {
   }
 }
 export default App;
+//<Navbar />

@@ -11,6 +11,7 @@ const validateLoginInput = require("../../validation/login");
 
 // Load User model
 const User = require("../../models/User");
+const Admin = require("../../models/Admin");
 
 router.get('/test', (req, res, next)=>{
 	var response = {status: 0};
@@ -87,7 +88,8 @@ router.post("/login", (req, res) => {
         // Create JWT Payload
         const payload = {
           id: user.id,
-          name: user.name
+          name: user.name,
+          type:"EMP"
         };
 
         // Sign token
@@ -110,6 +112,57 @@ router.post("/login", (req, res) => {
           .json({ passwordincorrect: "Password incorrect" });
       }
     });
+  });
+});
+
+router.post("/admlogin", (req, res) => {
+  // Form validation
+
+  const { errors, isValid } = validateLoginInput(req.body);
+
+  // Check validation
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
+
+  const adminid = req.body.email;
+  const password = req.body.password;
+
+  // Find user by email
+  Admin.findOne({ adminid: req.body.email }).then(adm => {
+    // Check if user exists
+    if (!adm) {
+      return res.status(404).json({ emailnotfound: "Email not found" });
+    }
+    
+    // Check password
+    if(adm.pwd == password){
+      const payload = {
+          id: adm.id,
+          name: adm.name,
+          type:"ADM"
+        };
+
+        // Sign token
+        jwt.sign(
+          payload,
+          keys.secretOrKey,
+          {
+            expiresIn: 31556926 // 1 year in seconds
+          },
+          (err, token) => {
+            res.json({
+              success: true,
+              token: "Bearer " + token
+            });
+          }
+        );
+    }
+    else{
+      return res
+          .status(400)
+          .json({ passwordincorrect: "Password incorrect" });
+    }
   });
 });
 

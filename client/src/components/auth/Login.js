@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { loginUser } from "../../actions/authActions";
+import { loginUser,loginAdmin } from "../../actions/authActions";
 import classnames from "classnames";
 
 class Login extends Component {
@@ -18,13 +18,19 @@ class Login extends Component {
   componentDidMount() {
     // If logged in and user navigates to Login page, should redirect them to dashboard
     if (this.props.auth.isAuthenticated) {
-      this.props.history.push("/dashboard");
+      if(this.props.auth.user.type === "EMP")
+        this.props.history.push("/dashboard");
+      else if(this.props.auth.user.type === "ADM")
+        this.props.history.push("/dashboardadmin");
     }
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.auth.isAuthenticated) {
-      this.props.history.push("/dashboard");
+      if(this.props.auth.user.type === "EMP")
+        this.props.history.push("/dashboard");
+      else if(this.props.auth.user.type === "ADM")
+        this.props.history.push("/dashboardadmin");
     }
 
     if (nextProps.errors) {
@@ -49,6 +55,17 @@ class Login extends Component {
     this.props.loginUser(userData);
   };
 
+  onSubmitAdmin = e => {
+    e.preventDefault();
+
+    const userData = {
+      email: this.state.email,
+      password: this.state.password
+    };
+
+    this.props.loginAdmin(userData);
+  };
+
   render() {
     const { errors } = this.state;
 
@@ -60,14 +77,6 @@ class Login extends Component {
               <i className="material-icons left">keyboard_backspace</i> Back to
               home
             </Link>
-            <div className="col s12" style={{ paddingLeft: "11.250px" }}>
-              <h4>
-                <b>Login</b> below
-              </h4>
-              <p className="grey-text text-darken-1">
-                Don't have an account? <Link to="/register">Register</Link>
-              </p>
-            </div>
             <form noValidate onSubmit={this.onSubmit}>
               <div className="input-field col s12">
                 <input
@@ -103,19 +112,32 @@ class Login extends Component {
                   {errors.passwordincorrect}
                 </span>
               </div>
-              <div className="col s12" style={{ paddingLeft: "11.250px" }}>
-                <button
-                  style={{
-                    width: "150px",
-                    borderRadius: "3px",
-                    letterSpacing: "1.5px",
-                    marginTop: "1rem"
-                  }}
-                  type="submit"
-                  className="btn btn-large waves-effect waves-light hoverable blue accent-3"
-                >
-                  Login
-                </button>
+              <div className="col s12">
+                <div className="col s6" style={{ paddingLeft: "11.250px" }}>
+                  <button
+                    style={{
+                      borderRadius: "3px",
+                      letterSpacing: "1.5px",
+                      marginTop: "1rem"
+                    }}
+                    type="submit"
+                    className="btn btn-large waves-effect waves-light hoverable blue accent-3">
+                    Login
+                  </button>
+                </div>
+                <div className="col s6" style={{ paddingRight: "11.250px" }}>
+                  <button
+                    style={{
+                      borderRadius: "3px",
+                      letterSpacing: "1.5px",
+                      marginTop: "1rem",
+                      float:"right"
+                    }}
+                    onClick = {this.onSubmitAdmin}
+                    className="btn btn-large waves-effect waves-light hoverable blue accent-3">
+                    Login as Admin
+                  </button>
+                </div>
               </div>
             </form>
           </div>
@@ -126,6 +148,7 @@ class Login extends Component {
 }
 
 Login.propTypes = {
+  loginAdmin : PropTypes.func.isRequired,
   loginUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired
@@ -138,5 +161,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { loginUser }
+  { loginUser, loginAdmin }
 )(Login);
