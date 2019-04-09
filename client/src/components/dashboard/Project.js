@@ -8,7 +8,7 @@ import { logoutUser } from "../../actions/authActions";
   {
    const { user } = this.props.auth;
    return(
-    <div>
+    <div className="container">
     <h5> Hello,
     <b>{user.name.split(" ")[0]}</b>
     </h5>
@@ -20,8 +20,9 @@ import { logoutUser } from "../../actions/authActions";
     </div>
    );
   }
+}
  Project.propTypes = {
-  auth: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired
  }
  const mapStateToProps = state => ({
   auth: state.auth,
@@ -29,4 +30,4 @@ import { logoutUser } from "../../actions/authActions";
 export default connect(
   mapStateToProps,
   )(Project);
- }
+ 
