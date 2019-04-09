@@ -15,6 +15,9 @@ import PrivateRoute from "./components/private-route/PrivateRoute";
 import PrivateRouteAdm from "./components/private-route/PrivateRouteAdm";
 import Dashboard from "./components/dashboard/Dashboard";
 import DashboardAdmin from "./components/dashboard/DashboardAdmin";
+import Announcement from "./components/dashboard/Announcement";
+import CreateAnnouncement from "./components/dashboard/CreateAnnouncement";
+import Project from "./components/dashboard/Project";
 
 import "./App.css";
 
@@ -48,6 +51,9 @@ class App extends Component {
             <Route exact path="/" component={Landing} />
             <Route exact path="/register" component={Register} />
             <Route exact path="/login" component={Login} />
+            <Route exact path="/Announcement" component={Announcement}/>
+            <Route exact path="/create" component={CreateAnnouncement}/>
+            <Route exact path="/project" component={Project}/>
             <Switch>
               <PrivateRoute exact path="/dashboard" component={Dashboard} />
               <PrivateRouteAdm exact path="/dashboardadmin" component={DashboardAdmin} />

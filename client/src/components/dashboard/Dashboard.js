@@ -11,14 +11,25 @@ class Dashboard extends Component {
   createAnnouncement = e =>{
     e.preventDefault();
 
-    console.log(this.props.auth.user)
-    const post = {
-      uid: this.props.auth.user.email,
-      message: "Test Announcement",
-      name: this.props.auth.user.name,
-      viewers: [{viewer:"viewer1"}]
-    };
+    // console.log(this.props.auth.user)
+    // const post = {
+    //   uid: this.props.auth.user.email,
+    //   message: "Test Announcement",
+    //   name: this.props.auth.user.name,
+    //   viewers: [{viewer:"viewer1"}]
+    // };
     // this.props.makeAnnouncement(post);
+    this.props.history.push("/create");
+  };
+  viewannouncements = e =>
+  {
+    e.preventDefault();
+    this.props.history.push("/Announcement");
+  };
+
+  projects = e =>{
+    e.preventDefault();
+    this.props.history.push("/project");
   };
 
   render() {
@@ -73,9 +84,34 @@ class Dashboard extends Component {
               Logout
             </button>
           </div>
-        </div>
-        <div className="container">
-          <h4> Announcements </h4>
+          <div>
+            <button
+              style={{
+                width: "250px",
+                borderRadius: "3px",
+                letterSpacing: "1.5px",
+                marginTop: "1rem",
+              }}
+              onClick={this.projects}
+              className="btn btn-large waves-effect waves-light hoverable blue accent-3"
+              >
+              My Projects
+            </button>
+          </div>
+          <div>
+            <button
+              style={{
+                width: "250px",
+                borderRadius: "3px",
+                letterSpacing: "1.5px",
+                marginTop: "1rem",
+              }}
+              onClick={this.viewannouncements}
+              className="btn btn-large waves-effect waves-light hoverable blue accent-3"
+              >
+              My Announcements
+            </button>
+          </div>
         </div>
       </div>
     );

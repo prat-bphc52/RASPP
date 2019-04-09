@@ -91,11 +91,12 @@ export const logoutUser = () => dispatch => {
   dispatch(setCurrentUser({}));
 };
 
-export const makeAnnouncement = post => dispatch => {
+export const makeAnnouncement = (post,history) => dispatch => {
   axios
     .post("/api/users/announce", post)
     .then(res =>{
         console.log("Posted Successfully");
+        history.push("/dashboard");
         dispatch({
         type: POST_ANNOUNCEMENT,
         payload: res
