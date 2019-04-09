@@ -17,12 +17,12 @@ class Register extends Component {
     };
   }
 
-  componentDidMount() {
-    // If logged in and user navigates to Register page, should redirect them to dashboard
-    if (this.props.auth.isAuthenticated) {
-      this.props.history.push("/dashboard");
-    }
-  }
+  // componentDidMount() {
+  //   // If logged in and user navigates to Register page, should redirect them to dashboard
+  //   // if (this.props.auth.isAuthenticated) {
+  //   //   this.props.history.push("/dashboard");
+  //   // }
+  // }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.errors) {
@@ -39,13 +39,23 @@ class Register extends Component {
   onSubmit = e => {
     e.preventDefault();
 
+    var mgr = false;
+    console.log(this.state.manager);
+    if(String(this.state.manager)==="Yes")
+      mgr = true;
+    else mgr = false;
+
     const newUser = {
       name: this.state.name,
       email: this.state.email,
       password: this.state.password,
-      password2: this.state.password2
+      password2: this.state.password2,
+      joiningDate: Date.now(),
+      dob: new Date(String(this.state.dob)+" 00:00"),
+      manager: mgr,
+      address: this.state.address
     };
-
+    console.log(newUser);
     this.props.registerUser(newUser, this.props.history);
   };
 
@@ -62,11 +72,8 @@ class Register extends Component {
             </Link>
             <div className="col s12" style={{ paddingLeft: "11.250px" }}>
               <h4>
-                <b>Register</b> below
+                <b>Add Employee Details</b>
               </h4>
-              <p className="grey-text text-darken-1">
-                Already have an account? <Link to="/login">Log in</Link>
-              </p>
             </div>
             <form noValidate onSubmit={this.onSubmit}>
               <div className="input-field col s12">
@@ -125,6 +132,34 @@ class Register extends Component {
                 <label htmlFor="password2">Confirm Password</label>
                 <span className="red-text">{errors.password2}</span>
               </div>
+              <div className="input-field col s12">
+                <input
+                  onChange={this.onChange}
+                  value={this.state.address}
+                  id="address"
+                  type="text"
+                />
+                <label htmlFor="address">Address</label>
+              </div>
+              <div className="input-field col s12">
+                <input
+                  onChange={this.onChange}
+                  value={this.state.dob}
+                  id="dob"
+                  type="text"
+                />
+                <label htmlFor="dob">Date of Birth</label>
+              </div>
+              <div className="input-field col s12">
+                <input
+                  onChange={this.onChange}
+                  value={this.state.manager}
+                  id="manager"
+                  type="text"
+                />
+                <label htmlFor="manager">Manager? (Yes/No)</label>
+                <span className="red-text">{errors.email}</span>
+              </div>
               <div className="col s12" style={{ paddingLeft: "11.250px" }}>
                 <button
                   style={{
@@ -136,7 +171,7 @@ class Register extends Component {
                   type="submit"
                   className="btn btn-large waves-effect waves-light hoverable blue accent-3"
                 >
-                  Sign up
+                  Submit
                 </button>
               </div>
             </form>

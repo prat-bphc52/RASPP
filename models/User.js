@@ -15,9 +15,18 @@ const UserSchema = new Schema({
     type: String,
     required: true
   },
-  date: {
-    type: Date,
-    default: Date.now
+  joiningDate: {
+    type: Date
+  },
+  isManager:{
+    type: Boolean,
+    default: false
+  },
+  dob:{
+    type: Date
+  },
+  address:{
+    type: String
   }
 });
 

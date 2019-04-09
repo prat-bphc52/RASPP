@@ -12,6 +12,7 @@ const validateLoginInput = require("../../validation/login");
 // Load User model
 const User = require("../../models/User");
 const Admin = require("../../models/Admin");
+const Post = require("../../models/Announcement");
 
 router.get('/test', (req, res, next)=>{
 	var response = {status: 0};
@@ -40,7 +41,11 @@ router.post("/register", (req, res) => {
       const newUser = new User({
         name: req.body.name,
         email: req.body.email,
-        password: req.body.password
+        password: req.body.password,
+        joiningDate: req.body.joiningDate,
+        isManager: req.body.manager,
+        address: req.body.address,
+        dob: req.body.dob
       });
 
       // Hash password before saving in database
@@ -89,7 +94,8 @@ router.post("/login", (req, res) => {
         const payload = {
           id: user.id,
           name: user.name,
-          type:"EMP"
+          type:"EMP",
+          email: user.email
         };
 
         // Sign token
@@ -164,6 +170,29 @@ router.post("/admlogin", (req, res) => {
           .json({ passwordincorrect: "Password incorrect" });
     }
   });
+});
+
+router.post("/announce", (req, res) => {
+  // Form validation
+
+  // Check validation
+  // if (!isValid) {
+  //   return res.status(400).json(errors);
+  // }
+  console.log(req.body);
+  const newpost = new Post({
+    announcementID: Date.now(),
+    owner: req.body.uid,
+    message: req.body.message,
+    owner_name: req.body.name,
+    viewers: req.body.viewers
+  });
+  console.log(newpost);
+
+  newpost
+    .save()
+    .then(post => res.json(post))
+    .catch(err => console.log(err));
 });
 
 module.exports = router;

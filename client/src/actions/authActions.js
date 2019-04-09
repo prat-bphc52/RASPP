@@ -2,7 +2,7 @@ import axios from "axios";
 import setAuthToken from "../utils/setAuthToken";
 import jwt_decode from "jwt-decode";
 
-import { GET_ERRORS, SET_CURRENT_USER, USER_LOADING } from "./types";
+import { GET_ERRORS, SET_CURRENT_USER, USER_LOADING, POST_ANNOUNCEMENT, POST_FAILED } from "./types";
 
 // Register User
 export const registerUser = (userData, history) => dispatch => {
@@ -89,4 +89,23 @@ export const logoutUser = () => dispatch => {
   setAuthToken(false);
   // Set current user to empty object {} which will set isAuthenticated to false
   dispatch(setCurrentUser({}));
+};
+
+export const makeAnnouncement = post => dispatch => {
+  axios
+    .post("/api/users/announce", post)
+    .then(res =>{
+        console.log("Posted Successfully");
+        dispatch({
+        type: POST_ANNOUNCEMENT,
+        payload: res
+      });
+    })
+    .catch(err=>{
+      console.log(err);
+      dispatch({
+        type: POST_FAILED,
+        payload: err.response.data
+      });
+    });
 };

@@ -9,6 +9,11 @@ class DashboardAdmin extends Component {
     this.props.logoutUser();
   };
 
+  addemp = e => {
+    e.preventDefault();
+    this.props.history.push("/register");
+  };
+
   render() {
     const { user } = this.props.auth;
     console.log(this.props.auth);
@@ -34,6 +39,19 @@ class DashboardAdmin extends Component {
               className="btn btn-large waves-effect waves-light hoverable blue accent-3"
             >
               Logout
+            </button>
+            <button
+              style={{
+                width: "250px",
+                borderRadius: "3px",
+                letterSpacing: "1.5px",
+                marginTop: "1rem",
+                marginLeft: "2rem"
+              }}
+              onClick={this.addemp}
+              className="btn btn-large waves-effect waves-light hoverable blue accent-3"
+            >
+              Add Employee
             </button>
           </div>
         </div>
